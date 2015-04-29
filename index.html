@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Presentation template</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/uqam.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="css/tomorrow-night-bright.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section data-background="./1103743-black-texture.jpg">
+  <h1>Presentation Title</h1>
+  <h3>Subtitle</h3>
+  <p> <small>More information</small> </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 class="nb-1">Section title</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="figure">Figure title</p>
+  <div class="list">
+    <div class="item">First item</div>
+    <div class="item">Second item</div>
+    <div class="item">Third item</div>
+    <div class="item">Fourth item</div>
+    <div class="item">Fifth item</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Definition</span>
+    /ˌdefəˈniSH(ə)n/ <em>noun</em> (lat. <em>definitionem</em>)
+    <strong>1.</strong> a statement of the exact meaning of a word, especially in a dictionary.
+    <strong>2.</strong> the degree of distinctness in outline of an object, image, or sound, especially of an image in a photograph or on a screen.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <blockquote>
+    When you're in the <big>shit</big> up to your neck, there's nothing left to do but <big>sing</big>.
+  </blockquote>
+  <div class="cite">&ndash; Samuel Beckett</div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="figure">Figure title</p>
+  <pre><code class="javascript" data-trim>
+const Y = (f) => ((g) => (n) => f(g(g))(n))(
+                (g) => (n) => f(g(g))(n));
+
+Y((facto) => (n) => (!n) ? 1 : n * facto(n-1))(5); //=> 120
+
+Y((len) => (arr) => (!arr[0]) ? 0 : 1 + len(arr.slice(1)))([1,2,3,4,5]); //=> 5
+
+Y((sum) => (arr) => (!arr.length) ? 0 : arr[0] + sum(arr.slice(1)))([1,2,3,4,5]); //=> 15
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="figure">Figure title</p>
+  <table>
+    <thead>
+      <tr>
+        <th>a</th>
+        <th>b</th>
+        <th>c</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>This slide <big>intentionally</big> left blank.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="figure">Figure title</p>
+  <ul>
+    <li>First item</li>
+    <li>Second item</li>
+    <li>Third item</li>
+  </ul>
+</section>
+
+
+</div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  });
+</script>
+
+</body>
+</html>
