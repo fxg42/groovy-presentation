@@ -77,7 +77,7 @@
   <p class="figure">Figure title</p>
   <pre><code class="javascript" data-trim>
 const Y = (f) => ((g) => (n) => f(g(g))(n))(
-                (g) => (n) => f(g(g))(n));
+                  (g) => (n) => f(g(g))(n));
 
 Y((facto) => (n) => (!n) ? 1 : n * facto(n-1))(5); //=> 120
 
