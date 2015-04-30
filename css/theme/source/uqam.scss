@@ -152,6 +152,25 @@ div.cite {
 .reveal p big {
   font-size: 1.9em;
 }
+.reveal ul.doughnut-legend {
+  margin: 0;
+}
+ul.doughnut-legend li {
+  display: inline;
+  list-style: none;
+  font-size: 0.7em;
+  color: #fff;
+}
+ul.doughnut-legend li:not(:first-child) {
+  margin-left: 1em;
+}
+ul.doughnut-legend li span {
+  border-radius: 10px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
