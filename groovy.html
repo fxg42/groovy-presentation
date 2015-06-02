@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>The Groovy Language</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/uqam.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <!-- <link rel="stylesheet" href="css/tomorrow-night-bright.css"> -->
+  <link rel="stylesheet" href="css/solarized_dark.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <script src="bower_components/Chart.js/Chart.min.js"></script>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section data-background="./1103743-black-texture.jpg">
+  <h1>The Groovy Language</h1>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="1">It's just Java, really&hellip;</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>(Almost) <big>all</big> Java programs are Groovy programs.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Java interoperability</p>
+  <div class="list">
+    <div class="item">Same bytecode</div>
+    <div class="item">Same JVM</div>
+    <div class="item">Same librairies</div>
+    <div class="item">Same OOP flavour</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>Same as Java but with <big>half</big> the line count.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="2">Groovy is your new Java</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Key differences (part 1)</p>
+  <div class="list">
+    <div class="item">Duck typing</div>
+    <div class="item"><code>public</code> by default</div>
+    <div class="item">Optional everything</div>
+    <div class="item">Literals</div>
+    <div class="item">Groovy truthiness</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Duck typing</span>
+    /dəkˈ tīpiNG/ (lat. <em>genus anatis</em>)
+    <strong>1.</strong> The action of defining the type of a variable based on the messages being sent to it at runtime.
+    <strong>2.</strong> A form of strong, dynamic typing usually opposed to strong, static typing based on the declared class name of a variable.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <blockquote>
+    If it <big>talks</big> like a duck and <big>quacks</big> like a duck, it's a <big>duck</big>.
+  </blockquote>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Typing categories</p>
+  <table>
+    <tr>
+      <td></td>
+      <td style="text-align:center"><strong>Static</strong></td>
+      <td style="text-align:center"><strong>Dynamic</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Strong</strong></td>
+      <td>Java, Haskell, C++</td>
+      <td>Groovy, Smalltalk, Ruby</td>
+    </tr>
+    <tr>
+      <td><strong>Weak</strong></td>
+      <td>C, Pascal</td>
+      <td>JavaScript, Perl, PHP</td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">What is "vessel's" type?</p>
+  <table>
+    <tr>
+      <td width="50%">
+  <pre data-caption="java"><code class="java" data-trim>
+public interface Vessel {
+  public void drink();
+}
+public class Mug implements Vessel {
+  @Override public void drink() {}
+}
+public class Bowl implements Vessel {
+  @Override public void drink() {}
+}
+public class Programmer {
+  public void drinkFrom(Vessel vessel) {
+    vessel.drink();
+  }
+}
+  </code></pre>
+      </td>
+      <td>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Mug {
+  def drink() {}
+}
+class Bowl {
+  def drink() {}
+}
+
+def drinkFrom(vessel) {
+  vessel.drink()
+}
+  </code></pre>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Public by default</p>
+  <p>Java's default visibility is package private; Groovy's is <big>public</big></p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">What about data encapsulation?!</p>
+  <table>
+    <tr>
+      <td width="50%">
+        <pre data-caption="java"><code class="java" data-trim>
+public class Coffee {
+  private String bitterness = "very";
+  public Coffee() {}
+  public String getBitterness() {
+    return bitterness;
+  }
+  public void setBitterness(String val) {
+    bitterness = val;
+  }
+  public void pourInto(Vessel vessel) {
+    vessel.add(this);
+  }
+}
+
+Coffee coffee = new Coffee();
+coffee.setBitterness("mellow");
+coffee.getBitterness();
+        </code></pre>
+      </td>
+      <td>
+        <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def bitterness = 'very'
+  def pourInto(vessel) {
+    vessel.add(this)
+  }
+}
+
+def coffee = new Coffee()
+coffee.bitterness = 'mellow' //=> calls 'setBitterness'
+coffee.bitterness //=> calls 'getBitterness'
+        </code></pre>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">so implicit&hellip; (Key differences part 2)</p>
+  <div class="list">
+    <div class="item">class name typing</div>
+    <div class="item">return keyword and semicolons</div>
+    <div class="item">parentheses (limited)</div>
+    <div class="item">exception handling</div>
+    <div class="item">classes</div>
+    <div class="item">some imports</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>All methods return the <big>last</big> expression.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>Statements (e.g. if, switch, try) are <big>expressions</big>.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>All checked exceptions are <big>runtime</big> exceptions.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>Method calls without an <big>explicit receiver</big> don't need parentheses.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Groovy scripts need not be in a class</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def pow(n, exp) {
+  n ** exp
+}
+
+this.pow(2, 10) //=> explicit receiver
+pow(2, 10)      //=> implicit receiver
+pow 2, 10       //=> optional parens
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Implicit imports</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+import java.lang.*  //=> Same as Java
+import java.util.*
+import java.io.*
+import java.net.*
+import groovy.lang.*
+import groovy.util.*
+import java.math.BigInteger
+import java.math.BigDecimal
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="3">Groovy is not Java</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">New things (part 1)</p>
+  <div class="list">
+    <div class="item">Literals</div>
+    <div class="item">String templating and Heredocs</div>
+    <div class="item">Safe dereferencing</div>
+    <div class="item">Destructuring assignments</div>
+    <div class="item">Operator overloading</div>
+    <div class="item">Traits</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Literals</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def list = [ 1, 2, 3, 4, 5 ] //=> ArrayList literal
+
+def map = [ a:1, b:2, foo:"bar", sub:[1,2,3] ] //=> HashMap literal
+
+def re = /fo+/ //=> Regex literal
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">String templating and Heredocs</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def someone = "world"
+
+def greeting = "Hello, ${someone.capitalize()}!" //=> "Hello, World!"
+def greeting = "Hello, " + someone.capitalize() + "!"
+
+def longGreeting = """
+  Dear ${someone.capitalize()},
+
+  I am writing to share my interest in greeting random strangers.
+
+  Kind regards,
+  """
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Safe dereferencing with &ldquo;?&rdquo;</p>
+  <table>
+    <tr>
+      <td width="50%">
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def drinkFrom(vessel) {
+  if (vessel == null) {
+    null
+  } else {
+    vessel.drink()
+  }
+}
+  </code></pre>
+      </td>
+      <td>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def drinkFrom(vessel) {
+  vessel?.drink()
+}
+  </code></pre>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Falsy and truthy things can be used in conditionnals</p>
+  <div class="list">
+    <div class="item">&ldquo;null&rdquo; pointers are falsy</div>
+    <div class="item">Empty strings are falsy</div>
+    <div class="item">Zero is falsy</div>
+    <div class="item">Empty lists are falsy</div>
+    <div class="item">Empty maps are falsy</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Destructuring assignment (sort of&hellip;)</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def (a, b, c) = [ 1, 2, 3 ]
+a + b + c //=> 6
+
+class Coffee {
+  def bitterness = 'very'
+  def roasting = 'dark'
+
+  def getAt(idx) {
+    if (idx == 0) { bitterness }
+    else if (idx == 1) { roasting }
+    else null
+  }
+}
+
+def coffee = new Coffee()
+def (bitterness, roasting) = coffee
+
+"${bitterness}, ${roasting}" //=> "very, dark"
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Operator overloading (18 operators total)</p>
+  <table>
+    <tr>
+      <td>+</td>
+      <td>a.plus(b)</td>
+      <td>a[b]</td>
+      <td>a.getAt(b)</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>a.minus(b)</td>
+      <td>a[b] = c</td>
+      <td>a.putAt(b, c)</td>
+    </tr>
+    <tr>
+      <td>*</td>
+      <td>a.multiply(b)</td>
+      <td>&lt;&lt;</td>
+      <td>a.leftShift(b)</td>
+    </tr>
+    <tr>
+      <td>/</td>
+      <td>a.div(b)</td>
+      <td>&gt;&gt;</td>
+      <td>a.rightShift(b)</td>
+    </tr>
+    <tr>
+      <td colspan=4 style="text-align:center">&hellip;</td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">New things (part 2)</p>
+  <div class="list">
+    <div class="item">Constructor syntax</div>
+    <div class="item">Default parameters</div>
+    <div class="item">Ranges</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Constructors</p>
+  <table>
+    <tr>
+      <td width="50%">
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def bitterness = ''
+  def roasting = ''
+
+  Coffee() {}
+
+  Coffee(Map properties) {
+    this.setBitterness(properties.bitterness)
+    this.setRoasting(properties.roasting)
+  }
+}
+  </code></pre>
+      </td>
+      <td>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def bitterness = ''
+  def roasting = ''
+}
+  </code></pre>
+      </td>
+    </tr>
+  </table>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def coffee1 = new Coffee()
+def coffee2 = new Coffee([ bitterness:'very', roasting:'dark' ])
+def coffee3 = new Coffee(bitterness:'very', roasting:'dark')
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Default parameter values</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def pourInto(vessel = new CoffeeCup()) {
+    vessel.add(this)
+  }
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Ranges</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def range1 = (1..10)
+range1.from //=> 1
+range1.to //=> 10
+
+def range2 = (1..<10)
+range2.to //=> 9
+
+for ( i in (1..5) ) { println i }
+
+def greeting = "Hello, World!"
+greeting[0..4]   //=> "Hello"
+greeting[-6..-1] //=> "World!"
+
+def capitalize(str) {
+  str[0].toUpperCase() + str[1..-1]
+}
+
+capitalize "groovy" //=> "Groovy"
+
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="4">Functional programming</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Functional programming</span><br>
+    /ˈfəNG(k)SH(ə)n(ə)l ˈprōˌɡramiNG/ (lat. <em>facta progressio</em>)
+    <strong>1.</strong> the action of writing a program where mathematically pure functions are first-class concepts.
+    <strong>2.</strong> a form programming that has its roots in &lambda; calculus and is thus generally opposed to imperative programming.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Functions are first-class objects</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def add = { x, y ->
+  x + y
+}
+
+add(1, 2) //=> 3
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Functions are closures</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def a = 10
+def add = { x, y ->
+  (x + y) * a  //=> 'a' is a 'free variable' as it was declared outside the function.
+}
+
+def say = { greeting ->
+  return { someone ->          // `return` keyword added for effect...
+    "${greeting}, ${someone}!" // in this inner function, 'greeting' is a free variable.
+  }
+}
+
+def sayHello = say("Hello")
+sayHello("World")  //=> "Hello, World!"
+
+say("Goodnight")("Gracie") //=> "Goodnight, Gracie!"
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Methods can be closures</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Programmer {
+  def drinkFrom(vessel) {
+    vessel?.drink()
+  }
+}
+
+def codeMonkey = new Programmer()
+def fn = codeMonkey.&drinkFrom //=> `fn` can be passed around and eventually called.
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="callout">Functions that take or return other functions are <big>higher-order</big> functions.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">List processing with higher-order functions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def list = [1, 2, 3, 4, 5]
+
+// The `each` method loops over all collection items.
+list.each({ item ->
+  println(item)
+})
+
+class ArrayList {
+  def each(iteratorFn) {
+    for (int idx = 0; idx < this.length(); idx++) {
+      iteratorFn(this[idx])
+    }
+  }
+}
+
+// Since the last argument to each is a literal closure, parentheses are optional.
+list.each { item ->
+  println item
+}
+
+// If the closure takes only one argument, groovy implicitely names it `it`.
+list.each {
+  println it
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">List processing with higher-order functions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def list = [1, 2, 3, 4, 5]
+
+// Transforms all items and collects the results in an list.
+list.collect { it ** 2 } //=> [1, 4, 9, 14, 25]
+
+// Filters the list by applying a predicate function.
+list.findAll { it % 2 } //=> [1, 3, 5]
+
+// Groups the items based on the predicate value.
+list.groupBy { it % 2 } // => [ true:[1,3,5], false:[2,4] ]
+
+// Calls a function passing in each item and the result of the previous call.
+list.inject(0) { acc, it -> acc + it } //=> 15
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">List processing with higher-order functions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def list = [1, 2, 3, 4, 5]
+
+def squared = { it ** 2 }
+def isEven = { !(it % 2) }
+
+// Filters the list, transforms each item and sums them.
+list.findAll(isEven).collect(squared).sum()
+
+// 'Plucking' is the action of collecting a property from all items.
+list = ['ham', 'eggs', 'bacon', 'spam', 'spam', 'spam']
+list.collect { it.size() } //=> [3, 4, 5, 4, 4, 4]
+list*.size()               //=> alternative syntax
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">the three-line quicksort</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def qsort(list) {
+  if (list.size() < 2) return list
+  def (x, xs) = [ list.head(), list.tail() ]
+  qsort(xs.findAll{it<=x}) + [x] + qsort(xs.findAll{it>x})
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="5">Metaprogramming</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Metaprogramming</span><br>
+    /ˈmedəˈprōˌɡramiNG/ (lat. <em>metaprogressio</em>)
+    <strong>1.</strong> the action of &ldquo;programming the program&rdquo; as opposed to, for exemple, &ldquo;programming the algorithm&rdquo;.
+    <strong>2.</strong> dynamic or static code introspection, generation, manipulation and interception are all forms of metaprogramming.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Introspection (since java 1.1)</p>
+  <pre data-caption="java"><code class="java" data-trim>
+public class Coffee {
+  private String bitterness;
+  public Coffee(String bitterness) {
+    this.bitterness = bitterness;
+  }
+}
+
+Constructor constructor = Coffee.getClass().getConstructor(String.getClass());
+Coffee coffee = (Coffee) constructor.newInstance("very");
+Field field = Coffee.getClass().getDeclaredField("bitterness");
+field.setAccessible(true);
+field.set(coffee, "mellow");
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Interception</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def methodMissing(String name, args) {
+    // called when an unknown method is invoked.
+    throw new MissingMethodException(name, delegate, args)
+  }
+  def propertyMissing(String name) {
+    // called when getting an unknown property.
+  }
+  def propertyMissing(String name, value) {
+    // called when setting an unknown property.
+  }
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Fun with delegates and propertymissing</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class RomanNumeral {
+  final values = [i:1, v:5, x:10, l:50, c:100, d:500, m:1000]
+
+  def propertyMissing(String numeral) {
+    def prev = 0
+    numeral.toLowerCase().collect{values[it]}.inject(0) { acc, val ->
+      acc += val
+      if (val > prev) { acc -= 2*prev }
+      prev = val
+      acc
+    }
+  }
+}
+
+def fn = {
+  assert MMMCDXLVIII + LXXXIX == MMMDXXXVII // 3448 + 89 == 3537
+}
+fn.delegate = new RomanNumeral()
+fn()
+
+def roman = new RomanNumeral()
+roman.MMMCDXLVIII + roman.LXXXIX == roman.MMMDXXXVII // 3448 + 89 == 3537
+
+  </code></pre>
+</section>
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Interception</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee implements GroovyInterceptable {
+  def invokeMethod(String name, args) {
+    // intercepts all method invocations.
+  }
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Interception with categories</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+use (TimeCategory) {
+  1.minute.from.now
+  10.hours.ago
+
+  def someDate = new Date()
+  someDate - 3.months
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Categories</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class StarbucksLingo {
+  static CoffeeOrder getVenti(Integer self) {
+    new CoffeeOrder(qty:self, ounces:20)
+  }
+  static CoffeeOrder getLatte(CoffeeOrder self) {
+    self.recipe = new Latte()
+    self
+  }
+  static IngredientSpec getExtraShots(Integer self) {
+    new IngredientSpec(qty:self, ingredient: new EspressoShot())
+  }
+  static CoffeeOrder leftShift(CoffeeOrder self, IngredientSpec spec) {
+    self.addIngredientSpec(spec)
+    self
+  }
+}
+
+use (StarbucksLingo) {
+  def order = 1.venti.latte << 2.extraShots
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Expando Meta Class</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  def bitterness
+}
+
+["into", "in"].each { word ->
+  Coffee.metaClass."pour${word.capitalize()}" << { vessel -> vessel.add(delegate) }
+}
+
+new Coffee(bitterness:'mild').pourInto(new CoffeeCup())
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">AST macros</p>
+  <table>
+    <tr>
+      <td width="50%">
+        <pre data-caption="groovy"><code class="groovy" data-trim>
+@Canonical
+@Commons
+class Coffee {
+  def bitterness = ''
+  def roasting = ''
+
+  def pourInto(vessel) {
+    log.info('pouring...')
+  }
+}
+        </code></pre>
+      </td>
+      <td>
+        <pre data-caption="groovy"><code class="groovy" data-trim>
+class Coffee {
+  private static final org.apache.commons.logging.Log log =
+    org.apache.commons.logging.LogFactory.getLog(Coffee)
+
+  def bitterness = ''
+  def roasting = ''
+
+  def Coffee(bitterness, roasting) {
+    this.bitterness = bitterness
+    this.roasting = roasting
+  }
+
+  def pourInto(vessel) {
+    log.isInfoEnabled() ? log.info('pouring...') : null
+  }
+
+  // complies with Bloch's 'Effective Java'.
+  boolean equals(Coffee other) { ... }
+  int hashCode() { ... }
+
+  // debug toString method with attribute values.
+  String toString() { }
+}
+        </code></pre>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Dependency resolution with grapes</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+@Grab('org.mortbay.jetty:jetty-embedded:6.1.26')
+@Grab('org.apache.derby:derby:10.9.1.0')
+@Grab('commons-dbcp:commons-dbcp:1.4')
+import org.apache.commons.dbcp.*
+import org.mortbay.jetty.*
+import org.mortbay.jetty.handler.*
+import org.mortbay.jetty.servlet.*
+
+def dataSource = new BasicDataSource()
+dataSource.setDriverClassName('org.apache.derby.jdbc.EmbeddedDriver')
+dataSource.setUrl('jdbc:derby:derby_data;create=true')
+
+def server = new Server(8090)
+server.start()
+server.join()
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">AST Macros</p>
+  <ul>
+    <li>Proxying</li>
+    <li>Concurrency</li>
+    <li>Sorting</li>
+    <li>Memoization</li>
+    <li>Patterns (e.g. Singleton, Immutable)</li>
+    <li>Type checking</li>
+    <li>etc&hellip;</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Main takeaways</p>
+  <div class="list">
+    <div class="item">Use Groovy idioms</div>
+    <div class="item">Use duck typing</div>
+    <div class="item">Use OOP-flavoured FP</div>
+    <div class="item">It's not magic; it's metaprogramming</div>
+    <div class="item">Avoid metaprogramming (if possible)</div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+  Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  });
+</script>
+
+</body>
+</html>

@@ -108,6 +108,8 @@
 	.reveal pre code {
 		padding: 20px;
 		border: 1px solid #ddd;
+    font-family: courier;
+    font-size: 12px;
 	}
 	.reveal blockquote {
 		margin: 20px 0;

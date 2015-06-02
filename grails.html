@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Grails</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/uqam.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <!-- <link rel="stylesheet" href="css/tomorrow-night-bright.css"> -->
+  <link rel="stylesheet" href="css/solarized_dark.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <script src="bower_components/Chart.js/Chart.min.js"></script>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section data-background="./1103743-black-texture.jpg">
+  <h1>Grails</h1>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="1">What is it?</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">What it is</p>
+  <div class="list">
+    <div class="item">Server MVC framework</div>
+    <div class="item">Built on Spring and Hibernate</div>
+    <div class="item">Prescriptive (&ldquo;The Grails Way&trade;&rdquo;)</div>
+    <div class="item">Uses conventions (magic!)</div>
+    <div class="item">Pluggable architecture (plugins!)</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>It removes <big>controller</big> boilerplate.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Controller utils</p>
+  <div class="list">
+    <div class="item">Mapping URLs to methods</div>
+    <div class="item">Cross-cutting concerns through filters</div>
+    <div class="item">Deserializing incoming payloads</div>
+    <div class="item">Serializing outgoing payloads</div>
+    <div class="item">Resolving and rendering view templates</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>It removes <big>data access</big> boilerplate.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Data access utils</p>
+  <div class="list">
+    <div class="item">Declarative transactional contexts</div>
+    <div class="item">Object-oriented database querying</div>
+    <div class="item">&ldquo;Transparent&rdquo; database access</div>
+    <div class="item">Automatic schema generation (DDL)</div>
+    <div class="item">Declarative validation logic</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>It simplifies <big>view template</big> authoring.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">view template utils</p>
+  <div class="list">
+    <div class="item">Template layout engine</div>
+    <div class="item">Controller action URL aliasing</div>
+    <div class="item">Presentation logic reuse through tag libs</div>
+    <div class="item">Large standard tag library</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="2">Domain classes</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <blockquote>
+    Hibernate is, by far, the Grails concept that's the most <big>complex</big>, weird and hard-to-grasp.
+  </blockquote>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Hibernate</span>
+    /ˈhībərˌnāt/ (lat. <em>hibernatum</em>)
+    <strong>1.</strong> A Java Object-Relational Mapping framework that produces DDL, DML and TCL SQL scripts.
+    <strong>2.</strong> A leaky abstraction that lures programmers with enchanting features in order to shipwreck their projects on the rocky coast of its island. See <em>sirens</em>.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">A simple domain class</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  String name
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">&hellip; that creates all this</p>
+  <div class="list">
+    <div class="item">A database table (id, version, name)</div>
+    <div class="item">Query and update methods</div>
+    <div class="item">Transactional support</div>
+    <div class="item">Validation logic</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Using the domain class</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def author = new Author(name:'Beckett')
+if (author.save(flush:true)) {
+  // passed validation logic and got saved to the database.
+}
+
+Author.list()  // selects all Authors from the database
+Author.get(1L) // selects the Author where id == 1
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>Hibernate uses a cache, called the <big>session</big>, to proxy the database.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">The hibernate session (part 1)</p>
+  <div class="list">
+    <div class="item">Entity lifecycle</div>
+    <div class="item">Detached objects</div>
+    <div class="item">Entity identity</div>
+  </div>
+</section>
+
+<section data-background="grunge_gray_textures_freckle_1920x1080.jpg">
+  <p class="caption" style="color:rgba(0,0,0,0.5)">entity lifecycle</p>
+  <p style=""><img width="80%" src="entity-lifecycle.png"></p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Entity identity</p>
+  <p style="line-height:1.3em">Hibernate uses <big>Java object equality</big> to manage the entities in the session.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Entity identity</p>
+  <table>
+    <tr>
+      <td>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+@EqualsAndHashCode(includes="isbn")
+class Book {
+  String isbn
+
+  static constraints = {
+    isbn unique:true, blank:false, nullable:false
+  }
+  static mapping = {
+    isbn updateable:false
+  }
+}
+  </code></pre>
+  <p style="text-align:center; color:rgba(255,255,255,0.6)"><small>Using a business key</small></p>
+      </td>
+      <td>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+@EqualsAndHashCode(includes="uuid")
+class Book {
+  String uuid = UUID.randomUUID().toString()
+
+  static constraints = {
+    uuid unique:true, blank:false, nullable:false
+  }
+  static mapping = {
+    uuid updateable:false
+  }
+}
+  </code></pre>
+  <p style="text-align:center; color:rgba(255,255,255,0.6)"><small>Using an artificial key</small></p>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Entity relationships</p>
+  <div class="list">
+    <div class="item">one-to-one (bidirectional)</div>
+    <div class="item">many-to-one (unidirectional)</div>
+    <div class="item">one-to-many (uni- and bidirectional)</div>
+    <div class="item">many-to-many (bidirectional)</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">operation cascading</p>
+  <p style="line-height:1em">Database operations <big>cascade</big> from the relationship's owning side the owned side.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">operation cascading</p>
+  <p style="line-height:1.3em">Cascading behaviour is altered <big>manually</big> or with the <big>hasMany</big> and <big>belongsTo</big> keywords.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">operation cascading</p>
+  <p style="line-height:1.3em">hasMany and belongsTo have multiple and<br>varying <big>side-effects</big>.
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">many-to-one</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  Location location
+}
+
+class Location {
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>Mapped with a foreign key in the author table to the location table</li>
+    <li>Saves and deletes <strong>are not</strong> cascaded from Author to Location</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">one-to-one</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  static hasOne = [ address:Address ]
+
+  static constraints = {
+    address unique:true
+  }
+}
+
+class Address {
+  Author author
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>Mapped with a foreign key in the address table to the author table</li>
+    <li>Adds a unique constraint on the foreign key to the author table</li>
+    <li>Saves and deletes <strong>are</strong> cascaded from Author to Address</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">unidirectional one-to-many</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  static hasMany = [ books:Book ]
+
+  static mapping = {
+    books cascade:'all-delete-orphan'
+  }
+}
+
+class Book {
+  static belongsTo = Author
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>Mapped with a join table</li>
+    <li>Saves and deletes <strong>are</strong> cascaded from Author to Book</li>
+    <li>Clearing the books collection deletes all related Books</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">unidirectional ordered one-to-many</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  List books
+  static hasMany = [ books:Book ]
+
+  static mapping = {
+    books cascade:'all-delete-orphan'
+  }
+}
+
+class Book {
+  static belongsTo = Author
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>List index mapped with a book_idx column in the join table</li>
+    <li>Deleting a Book updates the remaining Book indices</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">bidirectional one-to-many</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  static hasMany = [ books:Book ]
+
+  static mapping = {
+    books cascade:'all-delete-orphan'
+  }
+}
+
+class Book {
+  static belongsTo = [ author:Author ]
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>Mapped with a foreign key in the book table to the author table</li>
+    <li>Saves and deletes <strong>are</strong> cascaded from Author to Book</li>
+    <li>Clearing the books collection deletes all related Books</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">bidirectional ordered one-to-many</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  List books
+  static hasMany = [ books:Book ]
+
+  static mapping = {
+    books cascade:'all-delete-orphan'
+  }
+}
+
+class Book {
+  static belongsTo = [ author:Author ]
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>List index mapped with a book_idx column in the book table</li>
+    <li>Deleting a Book updates the remaining Book indices</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">many-to-many</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+class Author {
+  static hasMany = [ books:Book ]
+}
+
+class Book {
+  static hasMany = [ authors:Author ]
+  static belongsTo = Author
+}
+  </code></pre>
+  <ul style="font-size:0.8em">
+    <li>Mapped with a join table</li>
+    <li>Saves <strong>are</strong> cascaded from Author to Book</li>
+    <li>Deletes <strong>are not</strong> cascaded</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">grails console</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+Author.withTransaction { tx ->
+  def beckett = new Author(name:'Samuel Beckett', location:new Location(code:'CDG'))
+
+  beckett.addToBooks(new Book(title:'Nouvelles et Textes pour rien'))
+  beckett.addToBooks(new Book(title:'Malone meurt'))
+  beckett.addToBooks(new Book(title:'Murphy'))
+
+  beckett.save(flush:true, failOnError:true)
+}
+
+Author.withTransaction { tx ->
+  def beckett = Author.lock(1L)
+  def murphy = Book.findByTitle('Murphy', [lock:true])
+  beckett.removeFromBooks(murphy)
+  beckett.save(flush:true, failOnError:true)
+}
+
+Author.withTransaction { tx ->
+  def beckett = Author.lock(1L)
+  beckett.delete(flush:true)
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Querying</p>
+  <div class="list">
+    <div class="item">Cheap and cheerful queries</div>
+    <div class="item">Dynamic finders</div>
+    <div class="item">Detached criterias</div>
+    <div class="item">Where queries</div>
+    <div class="item">Hibernate Query Language (HQL)</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Cheap and cheerful with PostgreSQL dialect</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+Book.count()   // select count(*) from book
+
+Book.list()    // select * from book
+
+Book.get(42L)  // select * from book where id = 42
+
+Book.lock(42L) // select * from book where id = 42 for update
+
+Book.list(offset:0, max:10, sort:'title', order:'asc', lock:true)
+// select * from book order by lower(title) asc limit 10 offset 0 for update
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Dynamic finders</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+Book.findByTitle("Murphy")
+
+Book.findByTitleLike("Nouvelles%")
+
+Book.findByReleaseDateBetween(lowerBound, upperBound)
+
+Book.findByReleaseDateGreaterThan(someDate)
+
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Dynamic finders</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+DomainClass.
+  (count|find|findAll)
+  By
+  (Property)(Comparator)
+  (
+    (And|Or)(Property)(Comparator)
+  )*
+
+Book.findAll By Title ILike And ReleaseDate LessThan ("%nouvelles%", releaseDate)
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Where queries</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def query = Book.where {
+  publishedOn >= Date.parse('yyyy-MM-dd', '2015-01-01')
+}
+
+query.get()
+// select * from book b where b.published_on >= '2015-01-01'::date limit 1
+
+query.list()
+// select * from book b where b.published_on >= '2015-01-01'::date
+
+query.count()
+// select count(*) from book b where b.publishedOn >= '2015-01-01'::date
+
+query.updateAll(information:'New!')
+// update book set information = 'New!' where b.publishedOn >= '2015-01-01'::date
+
+query.deleteAll()
+// delete from book b where b.publishedOn >= '2015-01-01'::date
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Conditional where queries</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def makeQuery(params) {
+  Book.where {
+    if (params.date) {
+      publishedOn >= params.date
+    }
+    if (params.title) {
+      title =~ params.title
+    }
+  }
+}
+def params = [
+  date: Date.parse('yyyy-MM-dd', '2015-01-01'),
+  title: 'Murphy',
+]
+def query = makeQuery(params)
+
+query.list()
+// select * from book b where b.publishedOn >= '2015-01-01'::date and title ilike 'Murphy'
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Composing where queries</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def publishedIn2015 = Book.where {
+  publishedOn >= new Date('yyyy-MM-dd', '2015-01-01')
+}
+
+publishedIn2015
+  .where { title =~ params.title }
+  .order(params.sortKey, params.sortDirection)
+  .max(params.limit)
+  .offset(params.offset)
+  .list()
+
+//   select *
+//     from book b
+//    where b.publishedOn >= '2015-01-01'::date
+//          and
+//          title ilike 'Murphy'
+// order by b.publishedOn desc
+//    limit 10
+//   offset 20
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Hibernate query language</p>
+  <p style="line-height:1.3em">Out of all the querying APIs, HQL offers the most <big>flexibility</big> and <big>power</big></p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">HQL</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+Book.findAll("from Book b where b.title ilike ?", ["%Murphy%"])
+
+Book.findAll("from Book b where b.author.name = ?", ["Samuel Beckett"])
+
+Book.executeQuery("select count(b) from Book b")
+
+Author.executeQuery("select a.name from Author a")
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">HQL</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+Author.findAll("""
+  from Author a left join fetch a.books books
+  where exists (
+    from Book b where b in books and b.title like :title
+  )
+""", [title:'%title%'])
+
+Author.executeQuery("""
+  select a
+  from Author a left join a.books book
+  group by a
+  having avg(book.rating) >= :rating
+""", [rating:3.0])
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">HQL</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def session = ctx.sessionFactory.currentSession
+
+// select * from Book b where b.rating > 3 for update
+def books = session
+  .createQuery("from Book b where b.rating > 3")
+  .setLockMode('b', org.hibernate.LockMode.UPGRADE)
+  .list()
+
+// update book set rating=? where id in (? , ? , ? , ? , ? , ? , ?)
+def updatedCount = session
+  .createQuery("update Book b set b.rating = :rating where b in :books")
+  .setParameter('rating', 5)
+  .setParameterList('books', books)
+  .executeUpdate()
+
+// delete from book where rating &lt; 2
+def deletedCount = session
+  .createQuery("delete Book where rating &lt; ?")
+  .setParameter(0, 2)
+  .executeUpdate()
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">The hibernate session (part 2)</p>
+  <div class="list">
+    <div class="item">Eager fetching and lazy loading</div>
+    <div class="item">Optimistic locking</div>
+    <div class="item">Flush modes</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Lazy loading</p>
+  <p style="line-height:1.3em">By default, many-ended associations<br>are <big>lazily-loaded</big>.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Lazy loading</p>
+  <p>Hibernate will only query the database<br>when an association is accessed</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Eager fetching</p>
+  <p style="line-height:1.3em">We can force a database join<br>and <big>eagerly</big> load associations.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Eager fetching</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+// with GORM and dynamic finders
+Author.list(fetch:[books:'join'])
+
+// with where queries
+Author.where{}.list(fetch:[books:'join'])
+
+// with HQL
+Author.findAll("from Author a left join fetch a.books")
+
+// in the domain class
+class Author {
+  static hasMany = [books:Book]
+  static mapping = {
+    books fetch:'join'
+  }
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Pessimistic locking</p>
+  <p style="line-height:1.3em">Pessimistic locking <big>prevents</big> other processes from modifying a record while the owning process is using it.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Optimistic locking</p>
+  <p>Optimistic locking only checks for concurrent modifications when a process updates the record.</p>
+  <p><big>The first update wins.</big></p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Optimistic locking</p>
+  <p>Optimistic locking errors are very common.<br>Use transactions, pessimistic locking and avoid detached objects if you can.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">a note on transactions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def action() {
+  Author.withTransaction { tx ->
+    tx.setRollbackOnly() // rollbacks the transaction.
+  }
+  Author.withTransaction { tx ->
+    throw new RuntimeException() // rollbacks the transaction.
+  }
+  Author.withTransaction { tx ->
+    throw new Exception() // *does not* rollback the transaction ಠ_ಠ
+  }
+}
+  </code></pre>
+</section>
+
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Flush modes</p>
+  <p>Hibernate as several flush modes. Grails switches between two of them.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grails' auto flush mode</p>
+  <p style="line-height:1.3em">The hibernate session is automatically flushed before executing certain <big>queries</big>, after <big>committing</big> a transaction and when a web request <big>completes</big> normally.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grails' MANUAL flush mode</p>
+  <p style="line-height:1.3em">The hibernate session is <big>never</big> flushed<br>unless explicitely stated.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grail's flush modes</p>
+  <p>Grails automatically switches between flush modes&hellip;</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grails' flush mode switching</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def action() {
+  // When the action starts, the flush mode is `manual`.
+  def a = Author.lock(params.id)
+  a.name = null // invalid value
+  a.save(flush:true)
+  // The call to save() validates the entity. Grails sets the entity to
+  // `read-only` so it will not get flushed. It also sets the flush mode to `manual`.
+  a.name = 'some valid string'
+  a.save(flush:true)
+  // The call to save() revalidates the entity, flips the flush mode to `auto`
+  // and the entity to `read-write`.
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grails' flush modes switching and transactions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def action() {
+  // When the action starts, the flush mode is `manual`.
+  Author.withTransaction { tx ->
+    // The flush mode is set to `auto` upon starting a transaction.
+    def a = Author.lock(params.id)
+    a.name = `some name`
+    // The transaction is committed, dirty checking happens and the entity is persisted.
+  }
+  // The flush mode is switched back to `manual` after the transaction.
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Grails' flush modes and transactions</p>
+  <pre data-caption="groovy"><code class="groovy" data-trim>
+def action() {
+  // When the action starts, the flush mode is `manual`.
+  def a = Author.lock(params.id)
+  a.name = null // invalid value
+  a.save(flush:true)
+  // The call to save() validates the entity. Grails sets the entity to
+  // `read-only` so it will not get flushed. It also sets the flush mode to `manual`.
+  a.name = 'some valid string'
+  Author.withTransaction { tx ->
+    // Grails switches the flush mode to `auto`. The transaction is commited,
+    // the session flushed but the entity is still `read-only` and so, not persisted.
+  }
+  // Grails switches the flush mode back to `manual`, its value before the transaction.
+  a.save()
+  // Grails switches the entity back to `read-write` and the flush mode to `auto`.
+  Author.withTransaction { tx ->
+    // The transaction is commited, the session flushed and the now `read-write` entity persisted.
+  }
+  // Grails switches the flush mode back to `auto`, its value before the transaction.
+}
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Who opens and closes the hibernate session?</p>
+  <p>The OpenSessionInView Interceptor opens a hibernate at the start of the web request and closes it afterwards. It also flushes the session if its configuration file states a default flush mode of &ldquo;auto&rdquo;. By default, the project code generator sets the default flush mode to &ldquo;manual&rdquo;.</p>
+</section>
+
+<!--
+<section data-background="./1103743-black-texture.jpg">
+  <h2 data-number="3">Filters and Controllers</h2>
+</section>
+Classes are controllers, methods are actions.
+
+URLs get mapped to controllers and actions.
+
+Command objects are used to bind and validate parameters.
+
+Controllers query domain objects and services than redirect or render views.
+
+Controllers access scopes: servlet, http session, http request, params and flash
+
+Filters intercept calls to controllers: before, after and afterView
+<section data-background="grunge_gray_textures_freckle_1920x1080.jpg">
+  <p class="caption" style="color:rgba(0,0,0,0.5)">middleware</p>
+  <p style=""><img width="80%" src="middleware.png"></p>
+</section>
+-->
+
+</div>
+</div>
+
+<script>
+  Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  });
+</script>
+
+</body>
+</html>

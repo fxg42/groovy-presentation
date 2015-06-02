@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Presentation template</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/uqam.css" id="theme">
+
+  <!-- Code syntax highlighting -->
+  <!-- <link rel="stylesheet" href="css/tomorrow-night-bright.css"> -->
+  <link rel="stylesheet" href="css/solarized_dark.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <script src="bower_components/Chart.js/Chart.min.js"></script>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section data-background="./1103743-black-texture.jpg">
+  <h1>Presentation Title</h1>
+  <h3>Subtitle</h3>
+  <p> <small>More information</small> </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <h2 class="nb-1">Section title</h2>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Captions</p>
+  <div class="list">
+    <div class="item">First item</div>
+    <div class="item">Second item</div>
+    <div class="item">Third item</div>
+    <div class="item">Fourth item</div>
+    <div class="item">Fifth item</div>
+  </div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="defn">
+    <span class="term">Definition</span>
+    /ˌdefəˈniSH(ə)n/ <em>noun</em> (lat. <em>definitionem</em>)
+    <strong>1.</strong> a statement of the exact meaning of a word, especially in a dictionary.
+    <strong>2.</strong> the degree of distinctness in outline of an object, image, or sound, especially of an image in a photograph or on a screen.
+  </p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <blockquote>
+    When you're neck-deep in <big>shit</big>, there's nothing left to do but <big>sing</big>.
+  </blockquote>
+  <div class="cite">&ndash; Samuel Beckett</div>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Code snippets</p>
+  <pre><code class="javascript" data-trim>
+const Y = (f) => ((g) => (n) => f(g(g))(n))(
+                  (g) => (n) => f(g(g))(n));
+
+Y((facto) => (n) => (!n) ? 1 : n * facto(n-1))(5); //=> 120
+
+Y((len) => (arr) => (!arr[0]) ? 0 : 1 + len(arr.slice(1)))([1,2,3,4,5]); //=> 5
+
+Y((sum) => (arr) => (!arr.length) ? 0 : arr[0] + sum(arr.slice(1)))([1,2,3,4,5]); //=> 15
+  </code></pre>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">tables</p>
+  <table>
+    <thead>
+      <tr>
+        <th>a</th>
+        <th>b</th>
+        <th>c</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p>This slide <big>intentionally</big> left blank.</p>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">Lists</p>
+  <ul>
+    <li>First item</li>
+    <li>Second item</li>
+    <li>Third item</li>
+  </ul>
+</section>
+
+<section data-background="./1103743-black-texture.jpg">
+  <p class="caption">figures</p>
+  <img src="samuel_beckett_1_by_ipiranga-d5y7ily.jpg" alt="Ever tried ever failed no matter try again fail again fail better.">
+</section>
+
+<section data-background="./1103743-black-texture.jpg" data-state="myChart">
+  <p class="caption">Charts</p>
+  <canvas id="myChart" width="400" height="400"></canvas>
+  <script>
+    // source: http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+    function blendColors(c0, c1, p) {
+      var f=parseInt(c0.slice(1),16),t=parseInt(c1.slice(1),16),R1=f>>16,G1=f>>8&0x00FF,B1=f&0x0000FF,R2=t>>16,G2=t>>8&0x00FF,B2=t&0x0000FF;
+      return "#"+(0x1000000+(Math.round((R2-R1)*p)+R1)*0x10000+(Math.round((G2-G1)*p)+G1)*0x100+(Math.round((B2-B1)*p)+B1)).toString(16).slice(1);
+    }
+
+    var colors = {
+      gray     : "#839496",
+      darkgray : "#586E75",
+      green    : "#859900",
+      teal     : "#2AA198",
+      blue     : "#268BD2",
+      yellow   : "#B58900",
+      orange   : "#CB4B16",
+      red      : "#DC322F",
+      purple   : "#6C71C4"
+    };
+
+    var data = [
+      { value: 300, color: colors.green, highlight: blendColors(colors.green, "#FFFFFF", 0.3), label: "Green" },
+      { value: 50,  color: colors.teal, highlight: blendColors(colors.teal, "#FFFFFF", 0.3), label: "Teal" },
+      { value: 100, color: colors.purple, highlight: blendColors(colors.purple, "#FFFFFF", 0.3), label: "Purple" }
+    ]
+
+    Reveal.addEventListener('myChart', function(){
+      var id = 'myChart';
+      var el = document.getElementById(id);
+      var ctx = el.getContext('2d');
+      var myDoughnutChart = new Chart(ctx).Doughnut(data, {
+        animationEasing: 'easeInOutQuart',
+        animationSteps: 75,
+        segmentStrokeColor: 'rgba(0, 0, 0, 0.3)'
+      });
+
+      var legendId = id + '-legend';
+      var legend = document.getElementById(legendId)
+      if (!legend) {
+        legend = document.createElement('div');
+        legend.setAttribute('id', legendId);
+        legend.setAttribute('class', 'legend-container');
+        legend.innerHTML = myDoughnutChart.generateLegend();
+        el.parentNode.insertBefore(legend, el.nextSibling);
+      }
+    }, 0);
+  </script>
+</section>
+
+</div>
+</div>
+
+<script>
+  Reveal.initialize({
+    controls: false,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+    ]
+  });
+</script>
+
+</body>
+</html>

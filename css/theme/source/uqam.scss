@@ -18,7 +18,6 @@
 @import url(http://fonts.googleapis.com/css?family=Amatic+SC:400,700);
 @import url(http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic);
 @import url(http://fonts.googleapis.com/css?family=Italianno);
-@import url(http://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff);
 
 // Override theme settings (see ../template/settings.scss)
 $backgroundColor: #222;
@@ -48,8 +47,8 @@ section.has-light-background {
 	}
 }
 
-h2:after {
-  content: "1";
+h2[data-number]:after {
+  content: attr(data-number) " ";
   color: rgba(255,255,255,0.1);
   text-shadow: none;
   font-size: 5em;
@@ -59,26 +58,6 @@ h2:after {
   left: 370px;
   z-index: -1;
 }
-h2.nb-1:after { content: "1" }
-h2.nb-2:after { content: "2" }
-h2.nb-3:after { content: "3" }
-h2.nb-4:after { content: "4" }
-h2.nb-5:after { content: "5" }
-h2.nb-6:after { content: "6" }
-h2.nb-7:after { content: "7" }
-h2.nb-8:after { content: "8" }
-h2.nb-9:after { content: "9" }
-h2.nb-10:after { content: "10"; left: 282px; }
-h2.nb-11:after { content: "11"; left: 282px; }
-h2.nb-12:after { content: "12"; left: 282px; }
-h2.nb-13:after { content: "13"; left: 282px; }
-h2.nb-14:after { content: "14"; left: 282px; }
-h2.nb-15:after { content: "15"; left: 282px; }
-h2.nb-16:after { content: "16"; left: 282px; }
-h2.nb-17:after { content: "17"; left: 282px; }
-h2.nb-18:after { content: "18"; left: 282px; }
-h2.nb-19:after { content: "19"; left: 282px; }
-h2.nb-20:after { content: "20"; left: 282px; }
 
 p.caption {
   text-transform: uppercase;
@@ -113,6 +92,7 @@ p.caption {
   font-weight: 400;
   margin: 0 auto;
   width: 90%;
+  line-height: 1.3em;
 }
 p.defn strong {
   font-weight: 600;
@@ -171,6 +151,21 @@ ul.doughnut-legend li span {
   height: 20px;
   margin-right: 10px;
 }
+
+.reveal p.callout {
+  line-height: 1.3em;
+}
+
+pre[data-caption]:after {
+  content: attr(data-caption) " ";
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  font: bold 0.8em Klavika, 'Titillium Web', Helvetica, sans-serif;
+  position:absolute;
+  top:5px;
+  right:5px;
+}
+
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
